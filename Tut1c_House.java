@@ -6,11 +6,11 @@ public class Tut1c_House {
 
 
 
-    public static int getNumber()                       //Geerates number between 1 and 10
+    public static int getNumber()                       //Generates number between 1 and 10
     {
         int card;
 
-        card = (int)(Math.random() * 10) + 1;
+        card = (int)(Math.random() * 10 + 1);
 
         return (card);
 
@@ -48,21 +48,30 @@ public class Tut1c_House {
 
     public static boolean getBusted(int total)     //if statment for finding if total is over 21
         {
-            boolean result;
+            boolean busted;
 
             if( total > 21) {
 
-                result = true;
+                busted = true;
             }
             else
             {
-                result = false;
+                busted = false;
             }
 
 
-            return result;
+            return busted;
 
         }
+
+        public static int getHouse()
+    {
+        int house;
+
+        house = (int)(Math.random() * 6 + 16);                         //* 20 ensures the house cannot generate more than 20, so that it is possible to win
+
+        return house;
+    }
 
 
 
@@ -79,14 +88,16 @@ public class Tut1c_House {
         int total;
         boolean result;
         boolean busted;
-        int house;
+        int houseDraw;
 
 
 
 
         cardDraw1 = getNumber();
         cardDraw2 = getNumber();
-        house = getNumber() + 16;
+        houseDraw = getHouse();
+
+
 
 
         total = calcTotal(cardDraw1, cardDraw2);
@@ -94,7 +105,7 @@ public class Tut1c_House {
 
         System.out.println("You have drawn a " + cardDraw1 + " and a " +cardDraw2);
 
-        System.out.println("the house has " + house);
+        System.out.println("the house has " + houseDraw);
 
         System.out.println("Would you like to draw another? Y/N");
 
@@ -109,37 +120,32 @@ public class Tut1c_House {
 
 
             System.out.println("Your new card is " + new_card);
-                                                                                //Improvement note - If result in here, breaking the loop per each if so that the result will interupt the hitting if you go bust?
+
+            System.out.println("your total is " +total );
+                                                                                //Improvement note - If result in here, break the loop somehow so that the result will interupt the player if you go bust?
             System.out.println("Would you like to another card? Y/N");
 
             choice = kboard.next();
 
         }
 
-        result = getResult( total, house);
+        result = getResult( total, houseDraw);
 
         busted = getBusted(total);
 
-        if (result && !busted)
+        if (result)
         {
             System.out.println("you win!");
         }
         else
-            if (busted && !result)
+            if (busted)
         {
             System.out.println("Your are Busted");
         }
         else
-            if(!busted && !result)            //Why is result always true?
         {
             System.out.println("Too low");
         }
-
-
-
-
-
-
 
     }
 

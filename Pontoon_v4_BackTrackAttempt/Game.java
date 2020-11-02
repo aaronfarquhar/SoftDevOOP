@@ -1,8 +1,6 @@
 package Pontoon_v4_BackTrackAttempt;
 
 
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -11,98 +9,108 @@ import java.util.Scanner;
  * like the code dealing with the players hand other parts need to be deleted
  *
  */
-public class Game {
-
-    public void startPlaying() {
-        Scanner kboard = new Scanner(System.in);
 
 
-        int houseValue;
-
-        int playerDraw1;
-        int playerNumberOfDraws = 0;
+public class Game
+{
 
 
-        String playerDrawChoice = "";
 
-        int playerTotal = 0;
+    Player user = new User();
+    Player dealer = new Dealer();
+    String playerDrawChoice = "";
+    int playerNumberOfDraws = 0;
 
-        ArrayList<Integer> cards = new ArrayList<Integer>();
+    Scanner kboard = new Scanner(System.in);
 
+    /**
+     *
+     * contains the game, puts together all the code
+     */
+    public void startPlaying()
+    {
 
-        houseValue = House.getHouse();
+        System.out.println("would you like to play? Y/N");
 
-        System.out.println("would you like to Play? Y/N");
 
         playerDrawChoice = kboard.next();
 
-        while (playerDrawChoice.equalsIgnoreCase("y")) {                                                                   /*Loop to populate the list of the cards the
-                                                                                 player draws only while the player answers Y*/
+        dealer.draw();
 
-            System.out.println("The total to beat is " + houseValue);
+        dealer.hand();
 
-            playerDraw1 = Player.getNumber();
-
-            System.out.println("You drew " + playerDraw1);
-
-            cards.add(playerDraw1);
-
-            playerTotal = playerTotal + cards.get(playerNumberOfDraws);
-
-            System.out.println("Your total is " + playerTotal);
+        while (playerDrawChoice.equals("y"))
+        {
 
 
-            System.out.println("would you like to continue? Y/N");
+            user.draw();
 
-            playerDrawChoice = kboard.next();
-
-            playerNumberOfDraws++;                                          //counts the number of draws
-        }
+            user.hand();
 
 
-        if ((playerTotal > houseValue) && (playerTotal <= 21)) {
-            System.out.println("you have won");
 
-            System.out.println("you drew " + playerNumberOfDraws + " times this game");
+            System.out.println("You drew " + user.playerDraw);
 
-            System.out.println("Here are the cards you drew ");
 
-            for (int i = 0; i < cards.size(); i++) {
-                System.out.println(cards.get(i));
-                System.out.println("");
+            System.out.println("Your total is " + user.playerTotal);
+
+
+            System.out.println("Your target is " + dealer.playerTotal);
+
+
+            if (user.playerTotal > 21 )
+            {
+
+                playerDrawChoice = "n";
+
+                System.out.println("You went bust with " + user.playerTotal);
+
             }
+            else if (user.playerTotal == 21)
+                {
+                    playerDrawChoice = "n";
 
-        } else {
-            if (playerTotal < houseValue) {
-                System.out.println("You lost");
-
-                System.out.println("you drew " + playerNumberOfDraws + " times this game");
-
-                System.out.println("Here are the cards you drew ");
-
-                for (int i = 0; i < cards.size(); i++) {
-                    System.out.println(cards.get(i));
-                    System.out.println("");
-                }
-
-
-            } else {
-                if (playerTotal > 21) {
-                    System.out.println("Your bust try again");
-
-                    System.out.println("you drew " + playerNumberOfDraws + " times this game");
-
-                    System.out.println("Here are the cards you drew ");
-
-
-                    for (int i = 0; i < cards.size(); i++) {
-                        System.out.println(cards.get(i));
-                        System.out.println("");
-                    }
+                    System.out.println("Pontoon! You Won!");
 
 
                 }
+            else
+            {
+                System.out.println("would you like to continue? Y/N");
+                playerDrawChoice = kboard.next();
+
             }
+
+            playerNumberOfDraws++;
+
+
         }
+
+        if (user.playerTotal > dealer.playerTotal && user.playerTotal < 21)
+        {
+
+            System.out.println("you won with " + user.playerTotal + " against " +dealer.playerTotal + " and you drew " +playerNumberOfDraws+ " times.");
+
+
+        }
+        else if (user.playerTotal == dealer.playerTotal)
+        {
+
+            System.out.println("you drew with " + user.playerTotal + " against " +dealer.playerTotal + " and you drew " +playerNumberOfDraws+ " times.");
+
+        }
+        else if (user.playerTotal < dealer.playerTotal)
+        {
+
+            System.out.println("you lost with " + user.playerTotal + " against " +dealer.playerTotal + " and you drew " +playerNumberOfDraws+ " times.");
+
+        }
+
+
+
+
+
+
+
     }
 }
